@@ -1,0 +1,204 @@
+#    _____                   __                 _     ____
+#   |  __ \                 / _|               | |   |  _ \
+#   | |__) |   ___   _ __  | |_    ___    ___  | |_  | |_) |  _   _   _ __     __ _    ___    ___
+#   |  ___/   / _ \ | '__| |  _|  / _ \  / __| | __| |  _ <  | | | | | '_ \   / _` |  / _ \  / _ \
+#   | |      |  __/ | |    | |   |  __/ | (__  | |_  | |_) | | |_| | | | | | | (_| | |  __/ |  __/
+#   |_|       \___| |_|    |_|    \___|  \___|  \__| |____/   \__,_| |_| |_|  \__, |  \___|  \___|
+#                                                                              __/ |
+#                                                                             |___/
+#
+# A perfect solution for your network.
+# Made by lackoSK
+#
+#
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# A little aid for config:
+# perm - the permission needed to use a command.
+# format - style of the message.
+# enabled - set to TRUE to enable that feature, FALSE to disable.
+# label - command alias use ' | ' to split them
+#
+#Do not forget:
+#My discord is: lackoSK#0001
+#Suggestion? Contact me on discord on in Spigot PM!
+#
+#Config:
+#
+# Set the main command up:
+# Use | to split the label
+# perfectbungee - the default one - can not be changed.
+PerfectBungee_Commands: "pb|pbungee"
+#
+# Alert all online player(s) using a title.
+# Use placeholders {sender} > Who sent the alert, {message} > The alert message, {online} > how many players have been alerted. *
+Alert:
+  perm: "pb.alert.title"
+  title: "&c&lALERT &7by {sender}"
+  subtitle: "&f{message}"
+  alerted: "&c&l[!] &cYou have successfully alerted {online} players."
+#
+# Alert all online player(s) through the chat. Placeholder: {message} > The message to be alerted.
+ChatAlert:
+  perm: "pb.alert.chat"
+  format: "&c&l[!] &c{message}"
+#
+# What's that?
+# This connects you to the server which the given player is in
+# Use placeholders {server} > server name of the target, {target} > name of the target.
+Jump:
+  perm: "pb.jump"
+  offline: "&c&l[!] &cThis player is offline."
+  already: "&c&l[!] &cYou are already on this server."
+  connected: "&c&l[!] &cYou have been connected to: &f{server}&c where is playing &f{target}"
+#
+# List all of the online players across your network
+# Use placeholders {bungee_online} > Number of online players
+Online:
+  perm: "pb.online"
+  format: "&aOnline &8(&a{bungee_online}&8)&a: &a"
+  empty: "&cEverybody is offline :("
+#
+# Plugins show all your proxy plugins in game!
+# Use placeholders {plugin} > plugin names
+Plugins:
+  perm: "pb.plugins"
+  prefix: "&a&lPlugins: "
+  spectator_format: "&a, "
+  plugin_format: "&f{plugin}"
+#
+# Just a reload command. (Reloads configuration)
+Reload:
+  perm: "pb.reload"
+  reloaded: "&a&l[!] &aPlugin was reloaded."
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# Yes, yes AdminChat!
+# Use placeholders {server} > the name of the server which the sender is connect to, {sender} > sender name, {message} > the message being sent **
+# Label is /ac <message>
+#
+AdminChat:
+  perm: "pb.ac"
+  enabled: true
+  format: "&a&lAC &8&l| &8&o({server}) &a{sender}: &f{message}"
+  removed: "&a&lAC &8&l| &fYou have been removed from ac mode"
+  added: "&a&lAC &8&l| &fYou have been added to the ac mode"
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# Make your server Motd look COOL!
+# NOTE: If you wish to use "justonemore" you have to set "Normal.enabled" to false!
+# "justonemore" is where the number of available slots on the server is set to the number of players online + 1
+# making it appear as if there is only 1 slot left
+#
+Motd:
+  normal:
+    enabled: true
+    max: 100
+  justonemore: false
+  motd1:
+    - "&f&lThis server is using &a&lPerfectBungee%center"
+    - "&d&lThis server is using &e&lPerfectBungee%center"
+  motd2:
+    - "&fPerfectBungee is a plugin by lackoSK%center"
+    - "&bPerfectBungee is a plugin by lackoSK%center"
+#----------------------------------------------------------------------------------------------------------------------#
+#AuthMe protection
+#
+#If you wish to protect your server with authme set protect to true
+#
+#What does this do?
+#It's simple! It blocks commands which aren't allowed in "allowed-commands" section.
+#
+#Why do I need it?
+#It's because somebody can login as you, when he gets on authme he will type "/server <server>" and it will connect him!
+#
+#set InvalidMessage to "none" to disable it.
+#
+#What is blacklist? Some commands may work. for example LuckPerms (/lpb) works so you have to blacklist it.
+AuthMe:
+  protect: true
+  server-name:
+    - "Auth"
+    - "Auth2"
+  invalid-command: "&c&lHey&7 you can't use this command here!"
+  allowed-commands:
+    - "/login"
+    - "/register"
+    - "/l"
+    - "/reg"
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# AntiSpam! (powerful)
+# Use placeholder {seconds} > seconds until the next message can be sent.
+# NOTE: This is only for chat! Not for commands!
+#
+AntiSpam:
+  enabled: true
+  allow-bypass: true
+  bypass-perm: "pb.spam.bypass"
+  cooldown: 2
+  cancelled: "&cPlease, wait {seconds}second(s) before sending next message to chat."
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# Spy (like Huawei)
+# Use placeholders {sender} > who sent the secret message,
+# {receiver} > who the message was sent to, {message} > the message being sent **
+#
+Spy:
+  perm: "pb.spy"
+  enabled: "&8[&cSPY&8] &aSpy has been enabled"
+  disabled: "&8[&cSPY&8] &cSpy has been disabled"
+  format: "&8[&cSPY&8] &a{sender} &f--> &c{receiver}&f: {message}"
+
+Gspy:
+  perm: "pb.gspy"
+  enabled: "&8[&cGSPY&8] &aGSpy has been enabled"
+  disabled: "&8[&cGSPY&8] &cGSpy has been disabled"
+  format: "&8[&cGSPY&8] &a{sender} &f: {message}"
+
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# Messages System
+# /msg, /reply, /tell, /pm .. and more!
+# Use placeholders {server} > the name of the server which the sender is connect to, {sender} > sender name, {message} the message being sent
+# PremiumVanish support - it will show "PrivateMessage.offline"
+#
+PrivateMessage:
+  perm: "pb.default"
+  ignorespy-perm: "pb.ignore-spy"
+  offline: "This player is offline"
+  reply-no-target: "&cThis player is offline."
+  yourself: "You can not message your self"
+  received: "&7({server}) &e{sender} -> &cyou:&f {message}"
+  sent: "&cyou &8-> &7({server}) &e{receiver}:&f {message}"
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# Below you can change the name of the lobby/hub server
+# This will allow players to connect to it using /hub or /lobby!
+#
+Lobby:
+  enabled: true
+  #Server name of lobby server from bungee configuration.
+  name:
+    - "Lobby"
+  perm: "pb.default"
+  connected: "You have been connected to the lobby server"
+#----------------------------------------------------------------------------------------------------------------------#
+#
+# Donate? What's that?
+# This allows for a donation message to be sent across the network using a single command
+# Use placeholders {player} > who donated, {vip} > what was bought, {price} > how much the product was worth, {currency} > The currency used
+#
+Donate:
+  perm: "donate.use"
+  message:
+    - ""
+    - "&fPlayer &a{player}&f has bought {vip} for {price} {currency} &a&lTHX"
+    - ""
+#----------------------------------------------------------------------------------------------------------------------#
+
+# * - Only in alerted
+# ** - Only in format
+
+#Do NOT edit this!
+Version: 7

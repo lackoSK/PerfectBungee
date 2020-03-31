@@ -1,0 +1,24 @@
+Groups:
+  Owner:
+    format: "&cOwner &f> &c"
+    permission: "staff.group.owner"
+    order: 1
+  Helper:
+    format: "&aHelper &f> &a"
+    permission: "staff.group.helper"
+    order: 2
+
+Groups_Header:
+  - "&8------------------------------"
+  - ""
+
+Groups_Footer:
+  - ""
+  - "&8------------------------------"
+
+#If players in group are offline, we will display N/A
+#Else, if everybody is offline, we will display offline
+If_Offline_NA: true
+
+Offline_Message:
+  - "&cIt's offline nobody from staff there. :("
