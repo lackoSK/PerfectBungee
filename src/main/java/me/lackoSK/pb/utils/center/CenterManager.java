@@ -1,9 +1,9 @@
 package me.lackoSK.pb.utils.center;
 
-import org.mineacademy.bfo.Valid;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.mineacademy.bfo.Valid;
 
 public class CenterManager {
 
@@ -31,10 +31,9 @@ public class CenterManager {
 
 			}
 
-				DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-				messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-				messagePxSize++;
-
+			DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+			messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+			messagePxSize++;
 
 		}
 
@@ -155,18 +154,21 @@ public class CenterManager {
 
 		private static final Map<Character, DefaultFontInfo> CHAR_MAP = new HashMap<Character, DefaultFontInfo>(values().length, 1.1f);
 
-		private char character;
-		private int length;
-
-
 		static {
-			for(DefaultFontInfo info : values())
+			for (DefaultFontInfo info : values())
 				CHAR_MAP.put(info.character, info);
 		}
+
+		private char character;
+		private int length;
 
 		DefaultFontInfo(char character, int length) {
 			this.character = character;
 			this.length = length;
+		}
+
+		public static DefaultFontInfo getDefaultFontInfo(char c) {
+			return CHAR_MAP.getOrDefault(c, DEFAULT);
 		}
 
 		public char getCharacter() {
@@ -178,12 +180,9 @@ public class CenterManager {
 		}
 
 		public int getBoldLength() {
-			if (this == DefaultFontInfo.SPACE) return this.getLength();
+			if (this == DefaultFontInfo.SPACE)
+				return this.getLength();
 			return this.length + 1;
-		}
-
-		public static DefaultFontInfo getDefaultFontInfo(char c) {
-			return CHAR_MAP.getOrDefault(c, DEFAULT);
 		}
 	}
 }

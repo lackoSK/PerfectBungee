@@ -1,5 +1,10 @@
 package me.lackoSK.pb.utils;
 
+import java.util.ArrayList;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.Valid;
+
 import de.myzelyam.api.vanish.BungeePlayerHideEvent;
 import de.myzelyam.api.vanish.BungeePlayerShowEvent;
 import de.myzelyam.api.vanish.BungeeVanishAPI;
@@ -8,23 +13,22 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.Valid;
 
-import java.util.ArrayList;
+public class VanishUtil implements Listener {
 
-public class VanishUtil implements Listener  {
-
+	public static ArrayList<ProxiedPlayer> vanished = new ArrayList<>();
 	private final PerfectBungee pl;
 
-	 public VanishUtil(PerfectBungee main) {
-	 	this.pl = main;
-	 }
+	public VanishUtil(PerfectBungee main) {
+		this.pl = main;
+	}
 
-	 public static ArrayList<ProxiedPlayer> vanished = new ArrayList<>();
+	public static boolean isVanished(ProxiedPlayer player) {
+		return BungeeVanishAPI.getInvisiblePlayers().contains(player.getUniqueId());
+	}
 
 	@EventHandler
-	  public void onHide(BungeePlayerHideEvent e) {
+	public void onHide(BungeePlayerHideEvent e) {
 
 		Valid.checkNotNull(e.getPlayer());
 
@@ -35,7 +39,7 @@ public class VanishUtil implements Listener  {
 	}
 
 	@EventHandler
-	  public void onShow(BungeePlayerShowEvent e) {
+	public void onShow(BungeePlayerShowEvent e) {
 		Valid.checkNotNull(e.getPlayer());
 
 		vanished.remove(e.getPlayer());
@@ -44,7 +48,7 @@ public class VanishUtil implements Listener  {
 	}
 
 	@EventHandler
-	  public void onDisconnect(ServerDisconnectEvent e) {
+	public void onDisconnect(ServerDisconnectEvent e) {
 
 		Valid.checkNotNull(e.getPlayer());
 
@@ -56,18 +60,8 @@ public class VanishUtil implements Listener  {
 
 			Common.log("&aPlayer &f{player} &aleft vanished. Stopping his protection.".replace("{player}", e.getPlayer().getName()));
 
-
 		}
 
 	}
-
-	public static boolean isVanished(ProxiedPlayer player) {
-		return BungeeVanishAPI.getInvisiblePlayers().contains(player.getUniqueId());
-	}
-
-
-
-
-
 
 }

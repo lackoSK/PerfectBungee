@@ -1,20 +1,21 @@
 package me.lackoSK.pb.commands.messages;
 
-import de.leonhard.storage.Config;
-import me.lackoSK.pb.PerfectBungee;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import java.util.ArrayList;
+
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
-import java.util.ArrayList;
+import de.leonhard.storage.Config;
+import me.lackoSK.pb.PerfectBungee;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class GlobalSpyCommand extends SimpleCommand {
+
+	public static ArrayList<ProxiedPlayer> globalspyers = new ArrayList<>();
 
 	public GlobalSpyCommand() {
 		super("gspy");
 	}
-
-	public static ArrayList<ProxiedPlayer> globalspyers = new ArrayList<>();
 
 	@Override
 	protected void onCommand() {

@@ -1,22 +1,22 @@
 package me.lackoSK.pb.commands.messages;
 
+import java.util.ArrayList;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.command.SimpleCommand;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import me.lackoSK.pb.utils.Manager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.config.Configuration;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.command.SimpleCommand;
-
-import java.util.ArrayList;
 
 public class SpyCommand extends SimpleCommand {
+
+	public static ArrayList<ProxiedPlayer> spyers = new ArrayList<>();
 
 	public SpyCommand() {
 		super("spy");
 	}
-
-	public static ArrayList<ProxiedPlayer> spyers = new ArrayList<>();
 
 	@Override
 	protected void onCommand() {

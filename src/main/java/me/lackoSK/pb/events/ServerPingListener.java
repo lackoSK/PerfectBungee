@@ -1,5 +1,8 @@
 package me.lackoSK.pb.events;
 
+import java.util.List;
+import java.util.Random;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import me.lackoSK.pb.utils.center.CenterManager;
@@ -8,9 +11,6 @@ import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-
-import java.util.List;
-import java.util.Random;
 
 public class ServerPingListener implements Listener {
 

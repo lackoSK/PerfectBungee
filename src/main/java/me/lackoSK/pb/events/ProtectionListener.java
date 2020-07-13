@@ -1,5 +1,10 @@
 package me.lackoSK.pb.events;
 
+import java.util.List;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.Valid;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import me.lackoSK.pb.commands.messages.GlobalSpyCommand;
@@ -7,15 +12,11 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.Valid;
-
-import java.util.List;
 
 public class ProtectionListener implements Listener {
 
 	@EventHandler
-	  public void authMeProtection(ChatEvent e) {
+	public void authMeProtection(ChatEvent e) {
 
 		final Config cfg = PerfectBungee.getConfig();
 		final ProxiedPlayer sender = (ProxiedPlayer) e.getSender();
@@ -40,14 +41,14 @@ public class ProtectionListener implements Listener {
 				return;
 			}
 
-				String[] args = message.split(" ");
-				boolean anyMatch = commands.stream().anyMatch(s -> s.equalsIgnoreCase(args[0]));
+			String[] args = message.split(" ");
+			boolean anyMatch = commands.stream().anyMatch(s -> s.equalsIgnoreCase(args[0]));
 
-				if (!anyMatch) {
-					e.setCancelled(true);
+			if (!anyMatch) {
+				e.setCancelled(true);
 
-					if (!"none".equalsIgnoreCase(cfg.getString("AuthMe.invalid-command")))
-						Common.tell(sender, cfg.getString("AuthMe.invalid-command"));
+				if (!"none".equalsIgnoreCase(cfg.getString("AuthMe.invalid-command")))
+					Common.tell(sender, cfg.getString("AuthMe.invalid-command"));
 			}
 		}
 	}

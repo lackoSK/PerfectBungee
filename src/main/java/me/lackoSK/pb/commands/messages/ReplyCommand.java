@@ -1,11 +1,12 @@
 package me.lackoSK.pb.commands.messages;
 
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.command.SimpleCommand;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.command.SimpleCommand;
 
 public class ReplyCommand extends SimpleCommand {
 
@@ -28,7 +29,7 @@ public class ReplyCommand extends SimpleCommand {
 		String msg;
 
 		if (PrivateMessageCommand.lastSender.get(sender.getName()) == null)
-			returnTell( cfg.getString("PrivateMessage.reply-no-target"));
+			returnTell(cfg.getString("PrivateMessage.reply-no-target"));
 
 		receiver = ProxyServer.getInstance().getPlayer(PrivateMessageCommand.lastSender.get(getPlayer().getName()));
 
@@ -52,17 +53,9 @@ public class ReplyCommand extends SimpleCommand {
 
 		msg = msgBuilder.toString();
 
-		Common.tell(getPlayer(), cfg.getString("PrivateMessage.sent")
-				.replace("{receiver}", receiver.getName())
-				.replace("{server}", receiver.getServer().getInfo().getName())
-				.replace("{message}", msg));
+		Common.tell(getPlayer(), cfg.getString("PrivateMessage.sent").replace("{receiver}", receiver.getName()).replace("{server}", receiver.getServer().getInfo().getName()).replace("{message}", msg));
 
-
-		Common.tell(receiver, cfg.getString("PrivateMessage.received")
-				.replace("{sender}", getPlayer().getName())
-				.replace("{server}", getPlayer().getServer().getInfo().getName())
-				.replace("{message}", msg));
-
+		Common.tell(receiver, cfg.getString("PrivateMessage.received").replace("{sender}", getPlayer().getName()).replace("{server}", getPlayer().getServer().getInfo().getName()).replace("{message}", msg));
 
 		PrivateMessageCommand.sendSpyMessage(receiver, sender, msg);
 

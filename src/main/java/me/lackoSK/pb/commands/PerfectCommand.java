@@ -1,5 +1,13 @@
 package me.lackoSK.pb.commands;
 
+import java.util.Collections;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.PlayerUtil;
+import org.mineacademy.bfo.command.SimpleCommand;
+import org.mineacademy.bfo.exception.CommandException;
+import org.mineacademy.bfo.model.SimpleComponent;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import me.lackoSK.pb.utils.Manager;
@@ -11,13 +19,6 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginDescription;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.PlayerUtil;
-import org.mineacademy.bfo.command.SimpleCommand;
-import org.mineacademy.bfo.exception.CommandException;
-import org.mineacademy.bfo.model.SimpleComponent;
-
-import java.util.Collections;
 
 public class PerfectCommand extends SimpleCommand {
 
@@ -35,52 +36,39 @@ public class PerfectCommand extends SimpleCommand {
 
 		SimpleComponent alert = SimpleComponent.of("");
 
-		alert.append("&8>&a alert &8-&f send alert by title to players")
-				.onHover("Click to alert players")
-				.onClick(ClickEvent.Action.SUGGEST_COMMAND, "/perfectbungee alert ");
+		alert.append("&8>&a alert &8-&f send alert by title to players").onHover("Click to alert players").onClick(ClickEvent.Action.SUGGEST_COMMAND, "/perfectbungee alert ");
 
 		//---------//
 
 		SimpleComponent chatalert = SimpleComponent.of("");
 
-		chatalert.append("&8>&a chatalert &8-&f send alert by chat to players")
-				.onHover("Click to alert players")
-				.onClick(ClickEvent.Action.SUGGEST_COMMAND, "/perfectbungee chatalert ");
+		chatalert.append("&8>&a chatalert &8-&f send alert by chat to players").onHover("Click to alert players").onClick(ClickEvent.Action.SUGGEST_COMMAND, "/perfectbungee chatalert ");
 
 		//---------//
 
 		SimpleComponent online = SimpleComponent.of("");
 
-		online.append("&8>&a online &8-&f show all online players")
-				.onHover("Click to show online players")
-				.onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee online");
+		online.append("&8>&a online &8-&f show all online players").onHover("Click to show online players").onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee online");
 
 		//---------//
 
 		SimpleComponent plugins = SimpleComponent.of("");
 
-		plugins.append("&8>&a plugins &8-&f show all proxy plugins")
-				.onHover("Click to show proxy plugins")
-				.onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee plugins");
+		plugins.append("&8>&a plugins &8-&f show all proxy plugins").onHover("Click to show proxy plugins").onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee plugins");
 
 		//---------//
 
 		SimpleComponent jump = SimpleComponent.of("");
 
-		jump.append("&8>&a jump &8-&f connect to player's server")
-				.onHover("Click to connect to player")
-				.onClick(ClickEvent.Action.SUGGEST_COMMAND, "/perfectbungee jump ");
+		jump.append("&8>&a jump &8-&f connect to player's server").onHover("Click to connect to player").onClick(ClickEvent.Action.SUGGEST_COMMAND, "/perfectbungee jump ");
 
 		//---------//
 
 		SimpleComponent reload = SimpleComponent.of("");
 
-		reload.append("&8>&a reload &8-&f reload a config of the plugin")
-				.onHover("Click to reload the plugin")
-				.onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee reload");
+		reload.append("&8>&a reload &8-&f reload a config of the plugin").onHover("Click to reload the plugin").onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee reload");
 
 		//--------------------------------------------------------//
-
 
 		if (args.length == 0) {
 			//--------------------------------------------------------//
@@ -137,17 +125,10 @@ public class PerfectCommand extends SimpleCommand {
 				for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
 					final String message = new Manager().argsBuilder(1, args);
 
-					PlayerUtil.sendTitle(player,
-							"" + cfg.getString("Alert.title")
-									.replace("{message}", message)
-									.replace("{sender}", sender.getName()),
-							"" + cfg.getString("Alert.subtitle")
-									.replace("{message}", message)
-									.replace("{sender}", sender.getName()));
+					PlayerUtil.sendTitle(player, "" + cfg.getString("Alert.title").replace("{message}", message).replace("{sender}", sender.getName()), "" + cfg.getString("Alert.subtitle").replace("{message}", message).replace("{sender}", sender.getName()));
 				}
 
-				Common.tell(sender, cfg.getString("Alert.alerted")
-						.replace("{online}", "" + ProxyServer.getInstance().getOnlineCount()));
+				Common.tell(sender, cfg.getString("Alert.alerted").replace("{online}", "" + ProxyServer.getInstance().getOnlineCount()));
 
 				break;
 			}
@@ -161,10 +142,7 @@ public class PerfectCommand extends SimpleCommand {
 				for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
 					String message = new Manager().argsBuilder(1, args);
 
-					Common.tell(player,
-							"" + cfg.getString("ChatAlert.format")
-									.replace("{message}", message)
-									.replace("{sender}", sender.getName()));
+					Common.tell(player, "" + cfg.getString("ChatAlert.format").replace("{message}", message).replace("{sender}", sender.getName()));
 				}
 
 				break;
@@ -177,12 +155,7 @@ public class PerfectCommand extends SimpleCommand {
 					returnTell(cfg.getString("Online.empty"));
 
 				for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-					SimpleComponent.of(cfg.getString("Online.format")
-							.replace("{players}", "")
-							.replace("{bungee_online}", "" +  ProxyServer.getInstance().getOnlineCount()))
-							.append(Manager.split(Collections.singleton(player.getName()), " ,"))
-							.onHover(player.getServer().getInfo().getName())
-							.send(getSender());
+					SimpleComponent.of(cfg.getString("Online.format").replace("{players}", "").replace("{bungee_online}", "" + ProxyServer.getInstance().getOnlineCount())).append(Manager.split(Collections.singleton(player.getName()), " ,")).onHover(player.getServer().getInfo().getName()).send(getSender());
 
 				}
 
@@ -228,9 +201,7 @@ public class PerfectCommand extends SimpleCommand {
 
 				getPlayer().connect(targetServer);
 
-				Common.tell(getPlayer(), cfg.getString("Jump.connected")
-						.replace("{target}", target.getName())
-						.replace("{server}", targetServer.getName()));
+				Common.tell(getPlayer(), cfg.getString("Jump.connected").replace("{target}", target.getName()).replace("{server}", targetServer.getName()));
 
 				break;
 
@@ -254,9 +225,7 @@ public class PerfectCommand extends SimpleCommand {
 
 		//--------------------------------------------------------------------------//
 
-
 	}
-
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {

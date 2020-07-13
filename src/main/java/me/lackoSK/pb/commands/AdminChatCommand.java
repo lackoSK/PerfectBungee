@@ -1,18 +1,18 @@
 package me.lackoSK.pb.commands;
 
+import java.util.ArrayList;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.command.SimpleCommand;
+
 import de.leonhard.storage.Config;
 import lombok.Getter;
 import me.lackoSK.pb.PerfectBungee;
 import me.lackoSK.pb.utils.Manager;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.config.Configuration;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.command.SimpleCommand;
 
-import java.util.ArrayList;
-
-public class  AdminChatCommand extends SimpleCommand {
+public class AdminChatCommand extends SimpleCommand {
 
 	@Getter
 	public static AdminChatCommand instance;
@@ -37,25 +37,22 @@ public class  AdminChatCommand extends SimpleCommand {
 
 		if (args.length == 0) {
 			if (mode.contains(getPlayer())) {
-					mode.remove(getPlayer());
+				mode.remove(getPlayer());
 
-					Common.tell(sender, cfg.getString("AdminChat.removed"));
+				Common.tell(sender, cfg.getString("AdminChat.removed"));
 			} else {
-					mode.add(getPlayer());
+				mode.add(getPlayer());
 
-					Common.tell(sender, cfg.getString("AdminChat.added"));
-				}
-
-			} else {
-				for (final ProxiedPlayer players : ProxyServer.getInstance().getPlayers())
-					if (players.hasPermission(cfg.getString("AdminChat.perm"))) {
-						final String msg = new Manager().argsBuilder(0, args);
-
-						Common.tell(players, cfg.getString("AdminChat.format")
-						.replace("{sender}", getPlayer().getName())
-						.replace("{server}", getPlayer().getServer().getInfo().getName())
-						.replace("{message}", msg));
+				Common.tell(sender, cfg.getString("AdminChat.added"));
 			}
+
+		} else {
+			for (final ProxiedPlayer players : ProxyServer.getInstance().getPlayers())
+				if (players.hasPermission(cfg.getString("AdminChat.perm"))) {
+					final String msg = new Manager().argsBuilder(0, args);
+
+					Common.tell(players, cfg.getString("AdminChat.format").replace("{sender}", getPlayer().getName()).replace("{server}", getPlayer().getServer().getInfo().getName()).replace("{message}", msg));
+				}
 		}
 	}
 

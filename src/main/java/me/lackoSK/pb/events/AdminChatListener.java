@@ -9,7 +9,7 @@ import net.md_5.bungee.event.EventHandler;
 public class AdminChatListener implements Listener {
 
 	@EventHandler
-	  public void onChat(ChatEvent e) {
+	public void onChat(ChatEvent e) {
 
 		final ProxiedPlayer pl = (ProxiedPlayer) e.getSender();
 
@@ -17,11 +17,9 @@ public class AdminChatListener implements Listener {
 
 		if (AdminChatCommand.getInstance().mode.contains(pl) && (!msg.equalsIgnoreCase("/ac"))) {
 
-				e.setMessage("/" + AdminChatCommand.getInstance().getLabel() + " " + e.getMessage());
+			e.setMessage("/" + AdminChatCommand.getInstance().getLabel() + " " + e.getMessage());
 
 		}
-
-
 
 	}
 }

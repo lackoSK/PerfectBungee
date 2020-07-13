@@ -1,19 +1,17 @@
 package me.lackoSK.pb.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.Valid;
+import org.mineacademy.bfo.command.SimpleCommand;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import me.lackoSK.pb.utils.Manager;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.Server;
-import net.md_5.bungee.config.Configuration;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.Valid;
-import org.mineacademy.bfo.command.SimpleCommand;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class LobbyCommand extends SimpleCommand {
 
@@ -82,6 +80,5 @@ public class LobbyCommand extends SimpleCommand {
 
 		return minValue;
 	}
-
 
 }

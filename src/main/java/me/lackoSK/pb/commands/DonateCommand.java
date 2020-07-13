@@ -1,12 +1,12 @@
 package me.lackoSK.pb.commands;
 
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.command.SimpleCommand;
+
 import de.leonhard.storage.Config;
 import me.lackoSK.pb.PerfectBungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.config.Configuration;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.command.SimpleCommand;
 
 public class DonateCommand extends SimpleCommand {
 
@@ -30,12 +30,7 @@ public class DonateCommand extends SimpleCommand {
 
 		for (String message : cfg.getStringList("Donate.message")) {
 
-			message = message
-					.replace("{player}", buyerName)
-					.replace("{vip}", vipType.toUpperCase())
-					.replace("{price}", price)
-					.replace("{currency}", currency.toUpperCase()
-					);
+			message = message.replace("{player}", buyerName).replace("{vip}", vipType.toUpperCase()).replace("{price}", price).replace("{currency}", currency.toUpperCase());
 
 			for (final ProxiedPlayer online : ProxyServer.getInstance().getPlayers())
 				Common.tell(online, message);
@@ -43,7 +38,6 @@ public class DonateCommand extends SimpleCommand {
 		}
 
 	}
-
 
 }
 

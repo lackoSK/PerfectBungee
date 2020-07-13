@@ -1,5 +1,11 @@
 package me.lackoSK.pb;
 
+import java.util.Arrays;
+
+import org.mineacademy.bfo.Common;
+import org.mineacademy.bfo.bungee.SimpleBungee;
+import org.mineacademy.bfo.plugin.SimplePlugin;
+
 import de.leonhard.storage.Config;
 import de.leonhard.storage.LightningBuilder;
 import lombok.Getter;
@@ -15,11 +21,6 @@ import me.lackoSK.pb.events.ServerPingListener;
 import me.lackoSK.pb.utils.Manager;
 import me.lackoSK.pb.utils.Updater;
 import net.md_5.bungee.api.ProxyServer;
-import org.mineacademy.bfo.Common;
-import org.mineacademy.bfo.bungee.SimpleBungee;
-import org.mineacademy.bfo.plugin.SimplePlugin;
-
-import java.util.Arrays;
 
 public class PerfectBungee extends SimplePlugin {
 
@@ -29,15 +30,7 @@ public class PerfectBungee extends SimplePlugin {
 	public boolean PremiumVanish = false;
 
 	private String[] getPluginLogo() {
-		return new String[] {
-				"&a  _____           __          _   ____                              ",
-				"&a |  __ \\         / _|        | | |  _ \\                             ",
-				"&a | |__) |__ _ __| |_ ___  ___| |_| |_) |_   _ _ __   __ _  ___  ___ ",
-				"&a |  ___/ _ \\ '__|  _/ _ \\/ __| __|  _ <| | | | '_ \\ / _` |/ _ \\/ _ \\",
-				"&a | |  |  __/ |  | ||  __/ (__| |_| |_) | |_| | | | | (_| |  __/  __/",
-				"&a |_|   \\___|_|  |_| \\___|\\___|\\__|____/ \\__,_|_| |_|\\__, |\\___|\\___|",
-				"&a                                                     __/ |          ",
-				"&a                                                    |___/           "
+		return new String[] { "&a  _____           __          _   ____                              ", "&a |  __ \\         / _|        | | |  _ \\                             ", "&a | |__) |__ _ __| |_ ___  ___| |_| |_) |_   _ _ __   __ _  ___  ___ ", "&a |  ___/ _ \\ '__|  _/ _ \\/ __| __|  _ <| | | | '_ \\ / _` |/ _ \\/ _ \\", "&a | |  |  __/ |  | ||  __/ (__| |_| |_) | |_| | | | | (_| |  __/  __/", "&a |_|   \\___|_|  |_| \\___|\\___|\\__|____/ \\__,_|_| |_|\\__, |\\___|\\___|", "&a                                                     __/ |          ", "&a                                                    |___/           "
 
 		};
 	}
@@ -45,15 +38,9 @@ public class PerfectBungee extends SimplePlugin {
 	@Override
 	protected void onPluginStart() {
 
-		config = LightningBuilder
-				.fromPath("config", getDataFolder().getAbsolutePath())
-				.addInputStream(getResourceAsStream("config.yml"))
-				.createConfig();
+		config = LightningBuilder.fromPath("config", getDataFolder().getAbsolutePath()).addInputStream(getResourceAsStream("config.yml")).createConfig();
 
-		groups = LightningBuilder
-				.fromPath("groups", getDataFolder().getAbsolutePath())
-				.addInputStream(getResourceAsStream("groups.yml"))
-				.createConfig();
+		groups = LightningBuilder.fromPath("groups", getDataFolder().getAbsolutePath()).addInputStream(getResourceAsStream("groups.yml")).createConfig();
 
 		if (ProxyServer.getInstance().getPluginManager().getPlugin("PremiumVanish") != null) {
 			PremiumVanish = true;
@@ -80,14 +67,7 @@ public class PerfectBungee extends SimplePlugin {
 
 		Common.log(getPluginLogo());
 
-		Common.log(
-				"&8" + Common.consoleLineSmooth(),
-				"&7",
-				"&aPlugin by &f" + Manager.removeBrackets(getDescription().getAuthor()) + "&a was enabled successfully!",
-				"&aVersion: &f" + getDescription().getVersion(),
-				"&7",
-				"&8" + Common.consoleLineSmooth());
-
+		Common.log("&8" + Common.consoleLineSmooth(), "&7", "&aPlugin by &f" + Manager.removeBrackets(getDescription().getAuthor()) + "&a was enabled successfully!", "&aVersion: &f" + getDescription().getVersion(), "&7", "&8" + Common.consoleLineSmooth());
 
 		Updater.checkForUpdate();
 
@@ -102,7 +82,6 @@ public class PerfectBungee extends SimplePlugin {
 	public SimpleBungee getBungeeCord() {
 		return null;
 	}
-
 
 }
 
