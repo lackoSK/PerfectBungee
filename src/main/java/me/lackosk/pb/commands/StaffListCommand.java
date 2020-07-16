@@ -57,7 +57,7 @@ public class StaffListCommand extends SimpleCommand {
 		for (Group group : groups) {
 			final List<UUID> playersToShow = group.getPlayers();
 
-			if (PerfectBungee.isPremiumVanishHooked()) {
+			/*if (PerfectBungee.isPremiumVanishHooked()) {
 				System.out.println("Removing players...");
 				System.out.println(playersToShow);
 				for (UUID uid : playersToShow) {
@@ -65,7 +65,7 @@ public class StaffListCommand extends SimpleCommand {
 				}
 				playersToShow.removeIf(uuid -> BungeeVanishAPI.isInvisible(ProxyServer.getInstance().getPlayer(uuid)));
 				System.out.println(playersToShow);
-			}
+			}*/
 
 			final String format = group.getFormat();
 			if (playersToShow.isEmpty()) {
