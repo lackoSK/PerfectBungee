@@ -1,4 +1,4 @@
-package me.lackoSK.pb.commands.messages;
+package me.lackosk.pb.commands.messages;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
-import me.lackoSK.pb.PerfectBungee;
+import me.lackosk.pb.PerfectBungee;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class GlobalSpyCommand extends SimpleCommand {
@@ -19,7 +19,6 @@ public class GlobalSpyCommand extends SimpleCommand {
 
 	@Override
 	protected void onCommand() {
-
 		checkConsole();
 
 		final Config cfg = PerfectBungee.getConfig();
@@ -30,12 +29,10 @@ public class GlobalSpyCommand extends SimpleCommand {
 			globalspyers.remove(getPlayer());
 
 			Common.tell(sender, cfg.getString("GSpy.disabled"));
-
 		} else {
 			globalspyers.add(getPlayer());
 
 			Common.tell(sender, cfg.getString("GSpy.enabled"));
-
 		}
 	}
 }

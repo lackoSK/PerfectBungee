@@ -1,4 +1,4 @@
-package me.lackoSK.pb.utils;
+package me.lackosk.pb.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.net.URLConnection;
 
 import org.mineacademy.bfo.Common;
 
-import me.lackoSK.pb.PerfectBungee;
+import me.lackosk.pb.PerfectBungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.PluginDescription;
 

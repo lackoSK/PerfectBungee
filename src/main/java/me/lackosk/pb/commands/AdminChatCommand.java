@@ -1,4 +1,4 @@
-package me.lackoSK.pb.commands;
+package me.lackosk.pb.commands;
 
 import java.util.ArrayList;
 
@@ -7,17 +7,28 @@ import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
 import lombok.Getter;
-import me.lackoSK.pb.PerfectBungee;
-import me.lackoSK.pb.utils.Manager;
+import me.lackosk.pb.PerfectBungee;
+import me.lackosk.pb.utils.Manager;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class AdminChatCommand extends SimpleCommand {
 
+	/**
+	 * An instance of the AdminChat command to access it from other classes
+	 */
 	@Getter
-	public static AdminChatCommand instance;
-	public ArrayList<ProxiedPlayer> mode = new ArrayList<>();
+	private static AdminChatCommand instance;
 
+	/**
+	 * Players that are in AdminChat mode
+	 */
+	@Getter
+	private final ArrayList<ProxiedPlayer> mode = new ArrayList<>();
+
+	/**
+	 * The main constructor of AdminChat command
+	 */
 	public AdminChatCommand() {
 		super("ac");
 
@@ -30,10 +41,12 @@ public class AdminChatCommand extends SimpleCommand {
 		final Config cfg = PerfectBungee.getConfig();
 
 		checkConsole();
-		Manager.checkPerm(cfg.getString("AdminChat.perm"), getPlayer());
 
-		if (cfg.getBoolean("AdminChat.enabled"))
-			return;
+		if (!getPlayer().hasPermission(cfg.getString("AdminChat.perm")))
+			returnTell("&cYou don't have permissions to do this!");
+
+		if (!cfg.getBoolean("AdminChat.enabled"))
+			returnTell("&cAdmin chat is disabled");
 
 		if (args.length == 0) {
 			if (mode.contains(getPlayer())) {

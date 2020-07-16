@@ -1,4 +1,4 @@
-package me.lackoSK.pb.utils.center;
+package me.lackosk.pb.utils.center;
 
 import java.util.HashMap;
 import java.util.Map;

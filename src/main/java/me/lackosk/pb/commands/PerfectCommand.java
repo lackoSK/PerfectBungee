@@ -1,4 +1,4 @@
-package me.lackoSK.pb.commands;
+package me.lackosk.pb.commands;
 
 import java.util.Collections;
 
@@ -9,8 +9,8 @@ import org.mineacademy.bfo.exception.CommandException;
 import org.mineacademy.bfo.model.SimpleComponent;
 
 import de.leonhard.storage.Config;
-import me.lackoSK.pb.PerfectBungee;
-import me.lackoSK.pb.utils.Manager;
+import me.lackosk.pb.PerfectBungee;
+import me.lackosk.pb.utils.Manager;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;

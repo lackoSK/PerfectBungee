@@ -1,4 +1,4 @@
-package me.lackoSK.pb.commands.messages;
+package me.lackosk.pb.commands.messages;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,8 +8,8 @@ import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
-import me.lackoSK.pb.PerfectBungee;
-import me.lackoSK.pb.utils.Manager;
+import me.lackosk.pb.PerfectBungee;
+import me.lackosk.pb.utils.Manager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

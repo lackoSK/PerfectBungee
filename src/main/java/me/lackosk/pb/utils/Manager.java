@@ -1,4 +1,4 @@
-package me.lackoSK.pb.utils;
+package me.lackosk.pb.utils;
 
 import java.util.Arrays;
 
@@ -9,7 +9,7 @@ import com.google.common.base.Joiner;
 
 import de.leonhard.storage.Config;
 import lombok.NonNull;
-import me.lackoSK.pb.PerfectBungee;
+import me.lackosk.pb.PerfectBungee;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -130,9 +130,7 @@ public class Manager {
 
 	public static String[] getHoops(String message) {
 		return new String[] { "&c  _   _                       _ ", "&c  | | | | ___   ___  _ __  ___| |", "&c  | |_| |/ _ \\ / _ \\| '_ \\/ __| |", "&c  |  _  | (_) | (_) | |_) \\__ \\_|", "&4  |_| |_|\\___/ \\___/| .__/|___(_)", "&4                    |_|          ", "&4!-----------------------------------------------------!", "&cError: &f" + message, "&cContact me in pm to get help!", "&4!-----------------------------------------------------!"
-
 		};
-
 	}
 
 	public String argsBuilder(int StartOn, String[] args) {

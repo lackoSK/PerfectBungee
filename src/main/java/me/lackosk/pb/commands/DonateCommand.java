@@ -1,10 +1,10 @@
-package me.lackoSK.pb.commands;
+package me.lackosk.pb.commands;
 
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
-import me.lackoSK.pb.PerfectBungee;
+import me.lackosk.pb.PerfectBungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
