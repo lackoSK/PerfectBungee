@@ -19,10 +19,12 @@ public class PlayerCache {
 	 * Map that stores the cache instance(s)
 	 */
 	private static final Map<UUID, PlayerCache> cacheMap = new HashMap<>();
+
 	/**
 	 * UUID of the player applied as path prefix.
 	 */
 	private final String uuid;
+
 	/**
 	 * Stores the time when player sent his
 	 * last message to chat.
