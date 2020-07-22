@@ -23,7 +23,7 @@ public class AntiSpamListener implements Listener {
 		if (!event.isCommand())
 			return;
 
-		PlayerCache cache = PlayerCache.getCache(sender);
+		final PlayerCache cache = PlayerCache.getCache(sender);
 
 		long lastUsedTime = cache.getLastChatMessageTime();
 		final long now = System.currentTimeMillis();
