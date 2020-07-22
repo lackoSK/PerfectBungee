@@ -39,6 +39,5 @@ public class ServerPingListener implements Listener {
 		ping.setDescriptionComponent(component);
 
 		event.setResponse(ping);
-
 	}
 }

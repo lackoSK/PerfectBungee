@@ -1,5 +1,8 @@
 package me.lackosk.pb.commands.messages;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
@@ -15,49 +18,50 @@ public class ReplyCommand extends SimpleCommand {
 
 		setMinArguments(1);
 		setUsage("<message>");
+		setAutoHandleHelp(false);
 	}
 
 	@Override
 	protected void onCommand() {
-		final Config cfg = PerfectBungee.getConfig();
 		checkConsole();
-		checkPerm(cfg.getString("PrivateMessage.perm"));
 
-		checkNotNull(sender, "Error while sending this message!");
-
+		final Config cfg = PerfectBungee.getConfig();
+		final String msg = Arrays.stream(args)
+				.map(arg -> arg + " ")
+				.collect(Collectors.joining());
 		ProxiedPlayer receiver;
-		String msg;
+
+		checkPerm(cfg.getString("PrivateMessage.perm"));
 
 		if (PrivateMessageCommand.lastSender.get(sender.getName()) == null)
 			returnTell(cfg.getString("PrivateMessage.reply-no-target"));
 
-		receiver = ProxyServer.getInstance().getPlayer(PrivateMessageCommand.lastSender.get(getPlayer().getName()));
+		receiver = ProxyServer.getInstance()
+				.getPlayer(PrivateMessageCommand.lastSender.get(getPlayer().getName()));
 
 		checkNotNull(receiver, cfg.getString("PrivateMessage.offline"));
-
 		checkBoolean(receiver.isConnected(), "PrivateMessage.offline");
 
-	/*	if (ReplyCommand.this.pl.PremiumVanish) {
+		// TODO Get vanish to work
 
-			if (VanishUtil.vanished.contains(getPlayer())) {
-				returnTell(cfg.getString("PrivateMessage.offline"));
-			}
-	}*/
-
-		if (getPlayer().getName().equals(receiver.getName()))
+		if (getPlayer().getName()
+				.equals(receiver.getName()))
 			returnTell(cfg.getString("PrivateMessage.yourself"));
 
-		final StringBuilder msgBuilder = new StringBuilder();
-		for (String arg : args)
-			msgBuilder.append(arg).append(" ");
+		Common.tell(getPlayer(), cfg.getString("PrivateMessage.sent")
+				.replace("{receiver}", receiver.getName())
+				.replace("{server}", receiver.getServer()
+						.getInfo()
+						.getName())
+				.replace("{message}", msg));
 
-		msg = msgBuilder.toString();
+		Common.tell(receiver, cfg.getString("PrivateMessage.received")
+				.replace("{sender}", getPlayer().getName())
+				.replace("{server}", getPlayer().getServer()
+						.getInfo()
+						.getName())
+				.replace("{message}", msg));
 
-		Common.tell(getPlayer(), cfg.getString("PrivateMessage.sent").replace("{receiver}", receiver.getName()).replace("{server}", receiver.getServer().getInfo().getName()).replace("{message}", msg));
-
-		Common.tell(receiver, cfg.getString("PrivateMessage.received").replace("{sender}", getPlayer().getName()).replace("{server}", getPlayer().getServer().getInfo().getName()).replace("{message}", msg));
-
-		PrivateMessageCommand.sendSpyMessage(receiver, sender, msg);
-
+		PrivateMessageCommand.sendSpyMessage(receiver, getPlayer(), msg);
 	}
 }

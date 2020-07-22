@@ -10,7 +10,7 @@ import org.mineacademy.bfo.model.SimpleComponent;
 
 import de.leonhard.storage.Config;
 import me.lackosk.pb.PerfectBungee;
-import me.lackosk.pb.utils.Manager;
+import me.lackosk.pb.utils.Utils;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -72,11 +72,11 @@ public class PerfectCommand extends SimpleCommand {
 
 		if (args.length == 0) {
 			//--------------------------------------------------------//
-			if (Manager.isUser(sender, cfg)) {
+			if (Utils.isUser(sender, cfg)) {
 
-				Manager.smoothLine(sender);
-				Manager.emptyChatLine(sender);
-				Manager.pluginLogo(sender);
+				Utils.smoothLine(sender);
+				Utils.emptyLine(sender);
+				Utils.pluginInfo(sender);
 
 				if (sender.hasPermission(cfg.getString("Alert.perm")))
 					alert.send(sender);
@@ -96,14 +96,14 @@ public class PerfectCommand extends SimpleCommand {
 				if (sender.hasPermission(cfg.getString("Reload.perm")))
 					reload.send(sender);
 
-				Manager.emptyChatLine(sender);
-				Manager.smoothLine(sender);
+				Utils.emptyLine(sender);
+				Utils.smoothLine(sender);
 
 			} else {
-				Manager.smoothLine(sender);
-				Manager.pluginLogo(sender, "  ");
-				Common.tell(sender, "  " + "&fA plugin by &a" + Manager.removeBrackets(desc.getAuthor()));
-				Manager.smoothLine(sender);
+				Utils.smoothLine(sender);
+				Utils.pluginInfo(sender, "  ");
+				Common.tell(sender, "  " + "&fA plugin by &a" + Utils.removeBrackets(desc.getAuthor()));
+				Utils.smoothLine(sender);
 			}
 
 			//--------------------------------------------------------//
@@ -117,15 +117,20 @@ public class PerfectCommand extends SimpleCommand {
 		switch (param) {
 
 			case "alert": {
-				Manager.checkPerm(cfg.getString("Alert.perm"), sender);
+				Utils.checkPerm(cfg.getString("Alert.perm"), sender);
 
 				if (args.length <= 1)
 					returnTell("&cUsage: /{label} alert <message>");
 
-				for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-					final String message = new Manager().argsBuilder(1, args);
+				for (final ProxiedPlayer player : ProxyServer.getInstance()
+						.getPlayers()) {
+					final String message = new Utils().getArgumentsIndex(1, args);
 
-					PlayerUtil.sendTitle(player, "" + cfg.getString("Alert.title").replace("{message}", message).replace("{sender}", sender.getName()), "" + cfg.getString("Alert.subtitle").replace("{message}", message).replace("{sender}", sender.getName()));
+					PlayerUtil.sendTitle(player, "" + cfg.getString("Alert.title")
+							.replace("{message}", message)
+							.replace("{sender}", sender.getName()), "" + cfg.getString("Alert.subtitle")
+							.replace("{message}", message)
+							.replace("{sender}", sender.getName()));
 				}
 
 				Common.tell(sender, cfg.getString("Alert.alerted").replace("{online}", "" + ProxyServer.getInstance().getOnlineCount()));
@@ -134,28 +139,42 @@ public class PerfectCommand extends SimpleCommand {
 			}
 
 			case "chatalert": {
-				Manager.checkPerm(cfg.getString("ChatAlert.perm"), sender);
+				Utils.checkPerm(cfg.getString("ChatAlert.perm"), sender);
 
 				if (args.length <= 1)
 					returnTell("&cUsage: /{label} chatalert <message>");
 
-				for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-					String message = new Manager().argsBuilder(1, args);
+				for (final ProxiedPlayer player : ProxyServer.getInstance()
+						.getPlayers()) {
+					String message = new Utils().getArgumentsIndex(1, args);
 
-					Common.tell(player, "" + cfg.getString("ChatAlert.format").replace("{message}", message).replace("{sender}", sender.getName()));
+					Common.tell(player, "" + cfg.getString("ChatAlert.format")
+							.replace("{message}", message)
+							.replace("{sender}", sender.getName()));
 				}
 
 				break;
 			}
 
 			case "online": {
-				Manager.checkPerm(cfg.getString("Online.perm"), sender);
+				Utils.checkPerm(cfg.getString("Online.perm"), sender);
 
-				if (ProxyServer.getInstance().getPlayers().isEmpty())
+				if (ProxyServer.getInstance()
+						.getPlayers()
+						.isEmpty())
 					returnTell(cfg.getString("Online.empty"));
 
-				for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-					SimpleComponent.of(cfg.getString("Online.format").replace("{players}", "").replace("{bungee_online}", "" + ProxyServer.getInstance().getOnlineCount())).append(Manager.split(Collections.singleton(player.getName()), " ,")).onHover(player.getServer().getInfo().getName()).send(getSender());
+				for (ProxiedPlayer player : ProxyServer.getInstance()
+						.getPlayers()) {
+					SimpleComponent.of(cfg.getString("Online.format")
+							.replace("{players}", "")
+							.replace("{bungee_online}", "" + ProxyServer.getInstance()
+									.getOnlineCount()))
+							.append(Utils.split(Collections.singleton(player.getName()), " ,"))
+							.onHover(player.getServer()
+									.getInfo()
+									.getName())
+							.send(getSender());
 
 				}
 
@@ -163,16 +182,20 @@ public class PerfectCommand extends SimpleCommand {
 			}
 
 			case "plugins": {
-				Manager.checkPerm(cfg.getString("Plugins.perm"), sender);
+				Utils.checkPerm(cfg.getString("Plugins.perm"), sender);
 
 				final StringBuilder builder = new StringBuilder();
 				int i = 0;
 
-				for (final Plugin plugin : BungeeCord.getInstance().getPluginManager().getPlugins()) {
+				for (final Plugin plugin : BungeeCord.getInstance()
+						.getPluginManager()
+						.getPlugins()) {
 					if (i != 0)
 						builder.append(cfg.getString("Plugins.spectator_format"));
 
-					builder.append(cfg.getString("Plugins.plugin_format").replace("{plugin}", plugin.getFile().getName()));
+					builder.append(cfg.getString("Plugins.plugin_format")
+							.replace("{plugin}", plugin.getFile()
+									.getName()));
 					i++;
 				}
 				Common.tell(sender, cfg.getString("Plugins.prefix") + builder.toString());
@@ -182,16 +205,24 @@ public class PerfectCommand extends SimpleCommand {
 
 			case "jump": {
 				checkConsole();
-				Manager.checkPerm(cfg.getString("Jump.perm"), getPlayer());
+				Utils.checkPerm(cfg.getString("Jump.perm"), getPlayer());
 
 				if (args.length <= 1)
 					returnTell("&cUsage: /{label} jump <player>");
 
-				final ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
-				checkNotNull(target, cfg.getString("Jump.offline").replace("{player}", args[1]));
+				final ProxiedPlayer target = ProxyServer.getInstance()
+						.getPlayer(args[1]);
+				checkNotNull(target, cfg.getString("Jump.offline")
+						.replace("{player}", args[1]));
 
-				final ServerInfo targetServer = ProxyServer.getInstance().getServerInfo(target.getServer().getInfo().getName());
-				final ServerInfo senderServer = ProxyServer.getInstance().getServerInfo(getPlayer().getServer().getInfo().getName());
+				final ServerInfo targetServer = ProxyServer.getInstance()
+						.getServerInfo(target.getServer()
+								.getInfo()
+								.getName());
+				final ServerInfo senderServer = ProxyServer.getInstance()
+						.getServerInfo(getPlayer().getServer()
+								.getInfo()
+								.getName());
 
 				checkNotNull(targetServer, "Error while performing this command ");
 				checkNotNull(senderServer, "Error while performing this command ");
@@ -208,8 +239,9 @@ public class PerfectCommand extends SimpleCommand {
 			}
 
 			case "reload": {
-				Manager.checkPerm(cfg.getString("Reload.perm"), sender);
-				PerfectBungee.getInstance().reload();
+				Utils.checkPerm(cfg.getString("Reload.perm"), sender);
+				PerfectBungee.getInstance()
+						.reload();
 
 				Common.tell(sender, cfg.getString("Reload.reloaded"));
 
@@ -233,9 +265,7 @@ public class PerfectCommand extends SimpleCommand {
 		this.args = args;
 
 		try {
-
 			this.onCommand();
-
 		} catch (CommandException var) {
 
 			if (var.getMessages() != null)

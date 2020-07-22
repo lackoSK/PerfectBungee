@@ -1,15 +1,16 @@
 package me.lackosk.pb.commands.messages;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
 import me.lackosk.pb.PerfectBungee;
-import me.lackosk.pb.utils.Manager;
+import me.lackosk.pb.PlayerCache;
+import me.lackosk.pb.utils.Utils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -23,98 +24,99 @@ public class PrivateMessageCommand extends SimpleCommand implements TabExecutor 
 		super("msg|tell|pm|privatemessage");
 
 		setUsage("<player> <message>");
+		setAutoHandleHelp(false);
 		setMinArguments(2);
 	}
 
-	public static void sendSpyMessage(ProxiedPlayer receiver, CommandSender sender, String msg) {
-
+	public static void sendSpyMessage(ProxiedPlayer receiver, ProxiedPlayer sender, String msg) {
 		final Config cfg = PerfectBungee.getConfig();
 
-		for (final ProxiedPlayer spy : ProxyServer.getInstance().getPlayers()) {
+		for (final ProxiedPlayer spy : ProxyServer.getInstance()
+				.getPlayers()) {
+			final PlayerCache cache = PlayerCache.getCache(spy);
+			final String bypassPermission = cfg.getString("PrivateMessage.ignorespy-perm");
 
-			if ((SpyCommand.spyers.contains(sender) || SpyCommand.spyers.contains(receiver)) && ((sender.hasPermission(cfg.getString("PrivateMessage.ignorespy-perm"))) || (receiver.hasPermission(cfg.getString("PrivateMessage.ignorespy-perm"))))) {
+			if (spy.equals(receiver) || spy.equals(sender))
+				continue;
 
-				return;
-			}
+			if (sender.hasPermission(bypassPermission) || receiver.hasPermission(bypassPermission))
+				continue;
 
-			if (SpyCommand.spyers.contains(spy))
-				Common.tell(spy, cfg.getString("Spy.format").replace("{sender}", sender.getName()).replace("{receiver}", receiver.getName()).replace("{message}", msg));
+			if (cache.isSpyEnabled())
+				Common.tell(spy, cfg.getString("Spy.format")
+						.replace("{sender}", sender.getName())
+						.replace("{receiver}", receiver.getName())
+						.replace("{message}", msg));
 		}
-
 	}
 
 	@Override
 	protected void onCommand() {
-
-		final Config cfg = PerfectBungee.getConfig();
-
 		checkConsole();
 
-		Manager.checkPerm(cfg.getString("PrivateMessage.perm"), sender);
+		final Config cfg = PerfectBungee.getConfig();
+		final String message = Utils.getArgumentsIndex(1, args);
 
-		checkNotNull(sender, "Error while sending this message!");
+		Utils.checkPerm(cfg.getString("PrivateMessage.perm"), sender);
 
 		ProxiedPlayer receiver;
 
-		String msg;
+		if (args[0].equals("*")) {
+			ProxyServer.getInstance()
+					.getPlayers()
+					.stream()
+					.filter(player -> !player.getUniqueId()
+							.equals(getPlayer().getUniqueId()))
+					.forEach(player -> Common.tell(player, message));
 
-		if (args[0].equals("*"))
-			returnTell("&c&l[!] &cThis is not supported.");
+			return;
+		}
 
-		if (args[0].equals("**"))
-			returnTell("&c&l[!] &cThis is not supported.");
-
-		receiver = ProxyServer.getInstance().getPlayer(args[0]);
+		receiver = ProxyServer.getInstance()
+				.getPlayer(args[0]);
 
 		checkNotNull(receiver, cfg.getString("PrivateMessage.offline"));
 		checkBoolean(receiver.isConnected(), "PrivateMessage.offline");
 
-		if (sender.getName().equalsIgnoreCase(receiver.getName()))
+		if (sender.getName()
+				.equalsIgnoreCase(receiver.getName()))
 			returnTell(cfg.getString("PrivateMessage.yourself"));
 
-/*
-		if (PrivateMessageCommand.this.pl.PremiumVanish) {
-			if (VanishUtil.vanished.contains(getPlayer())) {
-				returnTell(cfg.getString("PrivateMessage.offline"));
-			}
+		// TODO Get vanish to work
 
-		}*/
+		Common.tell(sender, cfg.getString("PrivateMessage.sent")
+				.replace("{receiver}", receiver.getName())
+				.replace("{server}", receiver.getServer()
+						.getInfo()
+						.getName())
+				.replace("{message}", message));
 
-		final StringBuilder msgBuilder = new StringBuilder();
-		for (int i = 1; i < args.length; i++)
-			msgBuilder.append(args[i]).append(" ");
-		msg = msgBuilder.toString();
-
-		Common.tell(sender, cfg.getString("PrivateMessage.sent").replace("{receiver}", receiver.getName()).replace("{server}", receiver.getServer().getInfo().getName()).replace("{message}", msg));
-
-		Common.tell(receiver, cfg.getString("PrivateMessage.received").replace("{sender}", getPlayer().getName()).replace("{server}", getPlayer().getServer().getInfo().getName()).replace("{message}", msg));
+		Common.tell(receiver, cfg.getString("PrivateMessage.received")
+				.replace("{sender}", getPlayer().getName())
+				.replace("{server}", getPlayer().getServer()
+						.getInfo()
+						.getName())
+				.replace("{message}", message));
 
 		lastSender.put(sender.getName(), receiver.getName());
 		lastSender.put(receiver.getName(), sender.getName());
 
-		sendSpyMessage(receiver, getSender(), msg);
+		sendSpyMessage(receiver, getPlayer(), message);
 	}
 
 	@Override
 	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+		if (args.length == 1)
+			return ProxyServer.getInstance()
+					.getPlayers()
+					.stream()
+					.filter(player -> player.getName()
+							.toLowerCase()
+							.startsWith(args[0].toLowerCase()))
+					.map(CommandSender::getName)
+					.collect(Collectors.toList());
 
-		Set<String> matches = new HashSet<>();
-
-		if (args.length == 1) {
-
-			String search = args[0].toLowerCase();
-
-			for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-
-				if (player.getName().toLowerCase().startsWith(search)) {
-					matches.add(player.getName());
-				}
-
-			}
-
-		}
-
-		return matches;
+		return new ArrayList<>();
 	}
 
 }

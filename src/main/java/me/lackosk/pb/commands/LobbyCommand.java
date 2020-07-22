@@ -9,7 +9,7 @@ import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
 import me.lackosk.pb.PerfectBungee;
-import me.lackosk.pb.utils.Manager;
+import me.lackosk.pb.utils.Utils;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 
@@ -23,18 +23,21 @@ public class LobbyCommand extends SimpleCommand {
 
 	@Override
 	protected void onCommand() {
+		checkConsole();
+
 		final Config cfg = PerfectBungee.getConfig();
 
 		if (!cfg.getBoolean("Lobby.enabled"))
 			return;
 
-		checkConsole();
-		Manager.checkPerm(cfg.getString("Lobby.perm"), getPlayer());
-
+		Utils.checkPerm(cfg.getString("Lobby.perm"), getPlayer());
 		Valid.checkNotNull(getEmptiestServer(), "We could not find any server correctly...");
 
 		for (String fromConfig : cfg.getStringList("Lobby.name"))
-			if (getPlayer().getServer().getInfo().getName().equalsIgnoreCase(fromConfig))
+			if (getPlayer().getServer()
+					.getInfo()
+					.getName()
+					.equalsIgnoreCase(fromConfig))
 				Common.tell(getPlayer(), "&cYou are already on lobby server.");
 
 		if (getEmptiestServer() != null) {
@@ -42,11 +45,10 @@ public class LobbyCommand extends SimpleCommand {
 
 			Common.tell(getPlayer(), cfg.getString("Lobby.connected"));
 		} else
-			Common.tell(getPlayer(), "&cWe could not send you to the hub. Server was not found. Issues? Report (HUB:46)");
+			Common.tell(getPlayer(), "&cWe could not send you to the hub. Server was not found. Issues? Report them");
 	}
 
 	private ServerInfo getEmptiestServer() {
-
 		final Config cfg = PerfectBungee.getConfig();
 		final List<ServerInfo> serverInfos = new ArrayList<>();
 		final List<Integer> onlineDef = new ArrayList<>();
@@ -65,7 +67,6 @@ public class LobbyCommand extends SimpleCommand {
 
 			if (lowest == info.getPlayers().size())
 				return info;
-
 		}
 		return null;
 	}

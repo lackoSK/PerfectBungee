@@ -10,9 +10,8 @@ import org.mineacademy.bfo.command.SimpleCommand;
 import org.mineacademy.bfo.model.SimpleComponent;
 
 import de.leonhard.storage.sections.FlatFileSection;
-import de.myzelyam.api.vanish.BungeeVanishAPI;
-import me.lackosk.pb.Group;
 import me.lackosk.pb.PerfectBungee;
+import me.lackosk.pb.model.Group;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -77,10 +76,15 @@ public class StaffListCommand extends SimpleCommand {
 					final ProxiedPlayer player = ProxyServer.getInstance().getPlayer(playersToShow.get(i));
 
 					if (i == playersToShow.size() - 1) // if this is the last item in the array we dont want a ,
-						component.append(player.getName()).onHover(player.getServer().getInfo().getName());
-					else {
-						component.append(player.getName() + ", ").onHover(player.getServer().getInfo().getName());
-					}
+						component.append(player.getName())
+								.onHover(player.getServer()
+										.getInfo()
+										.getName());
+					else
+						component.append(player.getName() + ", ")
+								.onHover(player.getServer()
+										.getInfo()
+										.getName());
 
 				}
 				component.send(getPlayer());

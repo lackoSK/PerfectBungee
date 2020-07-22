@@ -1,4 +1,4 @@
-package me.lackosk.pb.utils;
+package me.lackosk.pb;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +24,20 @@ public class PlayerCache {
 	 * UUID of the player applied as path prefix.
 	 */
 	private final String uuid;
+
+	/**
+	 * Tells if admin chat of player is enabled
+	 */
+	@Getter
+	@Setter
+	private boolean adminChatEnabled;
+
+	/**
+	 * Tells if player is spying messages
+	 */
+	@Getter
+	@Setter
+	private boolean spyEnabled;
 
 	/**
 	 * Stores the time when player sent his

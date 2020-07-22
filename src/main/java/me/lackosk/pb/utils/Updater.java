@@ -14,69 +14,44 @@ import net.md_5.bungee.api.plugin.PluginDescription;
 
 public class Updater {
 
-	private static PluginDescription pdf = PerfectBungee.getInstance().getDescription();
+	private static final PluginDescription pdf = PerfectBungee.getInstance()
+			.getDescription();
+	private static final String projectId = "71074";
+	private static final String thisVersion = pdf.getVersion();
 
-	private static String projectId = "71074";
 	private static String latestVersion;
-	private static String thisVersion = pdf.getVersion();
 
 	public static void checkForUpdate() {
+		ProxyServer.getInstance()
+				.getScheduler()
+				.runAsync(PerfectBungee.getInstance(), () -> {
+					try {
+						final URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + projectId);
+						final URLConnection con = url.openConnection();
 
-		ProxyServer.getInstance().getScheduler().runAsync(PerfectBungee.getInstance(), () -> {
+						try (BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+							latestVersion = r.readLine();
+						}
 
-			try {
+						int version = 0;
+						int current = 0;
 
-				URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + projectId);
-				URLConnection con = url.openConnection();
+						try {
+							version = Integer.parseInt(latestVersion);
+							current = Integer.parseInt(PerfectBungee.getVersion());
+						} catch (NumberFormatException exception) {
+							if (!latestVersion.equalsIgnoreCase(PerfectBungee.getVersion()))
+								Common.log("&8" + Common.consoleLineSmooth(), "&7&7", "&aA new version of &f" + pdf.getName() + " &ais available", "&aCurrent: &f" + thisVersion + "&a, new: &f" + latestVersion, "&ahttps://www.spigotmc.org/resources/" + projectId + "/", "&7&7", "&8" + Common.consoleLineSmooth());
+						}
 
-				try (BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-					latestVersion = r.readLine();
-				}
+						if (version < current)
+							Common.log("&8" + Common.consoleLineSmooth(), "&7&7", "&aA new version of &f" + pdf.getName() + " &ais available", "&aCurrent: &f" + thisVersion + "&a, new: &f" + latestVersion, "&ahttps://www.spigotmc.org/resources/" + projectId + "/", "&7&7", "&8" + Common.consoleLineSmooth());
 
-				if (!latestVersion.equals(PerfectBungee.getVersion())) {
+					} catch (IOException ex) {
+						ex.printStackTrace();
 
-					Common.log("&8" + Common.consoleLineSmooth(), "&7&7", "&aA new version of &f" + pdf.getName() + " &ais available", "&aCurrent: &f" + thisVersion + "&a, new: &f" + latestVersion, "&ahttps://www.spigotmc.org/resources/" + projectId + "/", "&7&7", "&8" + Common.consoleLineSmooth());
-
-				}
-
-			} catch (IOException ex) {
-				ex.printStackTrace();
-
-				Common.log(Manager.getHoops("An unknown error while checking for update."));
-			}
-
-		});
-
+						Common.log(Utils.getHoops("An unknown error while checking for update."));
+					}
+				});
 	}
-
-	/*public static String[] isRunningLastestVersion() {
-
-		try {
-
-			URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + projectId);
-			URLConnection con = url.openConnection();
-
-			try (BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-				latestVersion = r.readLine();
-			}
-
-		}  catch (IOException ex) {
-			ex.printStackTrace();
-
-			Common.log(Manager.getHoops("An unknown error while checking for update."));
-		}
-
-		if (thisVersion.equals(latestVersion)) {
-
-			return new String[] {
-					"&2You are running the lastest version",
-					""
-
-			};
-
-		}
-
-		return null;
-	}*/
-
 }

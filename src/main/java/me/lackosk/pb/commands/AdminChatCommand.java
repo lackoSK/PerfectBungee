@@ -1,30 +1,18 @@
 package me.lackosk.pb.commands;
 
-import java.util.ArrayList;
-
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
-import lombok.Getter;
 import me.lackosk.pb.PerfectBungee;
-import me.lackosk.pb.utils.Manager;
+import me.lackosk.pb.PlayerCache;
+import me.lackosk.pb.utils.Utils;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+/**
+ * AdminChat command for staff.
+ */
 public class AdminChatCommand extends SimpleCommand {
-
-	/**
-	 * An instance of the AdminChat command to access it from other classes
-	 */
-	@Getter
-	private static AdminChatCommand instance;
-
-	/**
-	 * Players that are in AdminChat mode
-	 */
-	@Getter
-	private final ArrayList<ProxiedPlayer> mode = new ArrayList<>();
 
 	/**
 	 * The main constructor of AdminChat command
@@ -32,8 +20,8 @@ public class AdminChatCommand extends SimpleCommand {
 	public AdminChatCommand() {
 		super("ac");
 
-		instance = this;
 		setUsage("<message>");
+		setAutoHandleHelp(false);
 	}
 
 	@Override
@@ -48,25 +36,23 @@ public class AdminChatCommand extends SimpleCommand {
 		if (!cfg.getBoolean("AdminChat.enabled"))
 			returnTell("&cAdmin chat is disabled");
 
+		final PlayerCache cache = PlayerCache.getCache(getPlayer());
+
 		if (args.length == 0) {
-			if (mode.contains(getPlayer())) {
-				mode.remove(getPlayer());
+			Common.tell(sender, cache.isAdminChatEnabled() ? cfg.getString("AdminChat.removed") : cfg.getString("AdminChat.added"));
+			cache.setAdminChatEnabled(!cache.isAdminChatEnabled());
 
-				Common.tell(sender, cfg.getString("AdminChat.removed"));
-			} else {
-				mode.add(getPlayer());
+		} else
+			ProxyServer.getInstance()
+					.getPlayers()
+					.stream()
+					.filter(players -> players.hasPermission(cfg.getString("AdminChat.perm")))
+					.forEach(players -> Common.tell(players, cfg.getString("AdminChat.format")
+							.replace("{sender}", getPlayer().getName())
+							.replace("{server}", getPlayer().getServer()
+									.getInfo()
+									.getName())
+							.replace("{message}", Utils.getArgumentsIndex(0, args))));
 
-				Common.tell(sender, cfg.getString("AdminChat.added"));
-			}
-
-		} else {
-			for (final ProxiedPlayer players : ProxyServer.getInstance().getPlayers())
-				if (players.hasPermission(cfg.getString("AdminChat.perm"))) {
-					final String msg = new Manager().argsBuilder(0, args);
-
-					Common.tell(players, cfg.getString("AdminChat.format").replace("{sender}", getPlayer().getName()).replace("{server}", getPlayer().getServer().getInfo().getName()).replace("{message}", msg));
-				}
-		}
 	}
-
 }

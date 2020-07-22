@@ -1,4 +1,4 @@
-package me.lackosk.pb;
+package me.lackosk.pb.model;
 
 import java.util.ArrayList;
 import java.util.List;

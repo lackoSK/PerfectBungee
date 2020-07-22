@@ -1,18 +1,13 @@
 package me.lackosk.pb.commands.messages;
 
-import java.util.ArrayList;
-
-import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.command.SimpleCommand;
 
 import de.leonhard.storage.Config;
 import me.lackosk.pb.PerfectBungee;
-import me.lackosk.pb.utils.Manager;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import me.lackosk.pb.PlayerCache;
+import me.lackosk.pb.utils.Utils;
 
 public class SpyCommand extends SimpleCommand {
-
-	public static ArrayList<ProxiedPlayer> spyers = new ArrayList<>();
 
 	public SpyCommand() {
 		super("spy");
@@ -20,21 +15,14 @@ public class SpyCommand extends SimpleCommand {
 
 	@Override
 	protected void onCommand() {
-		final Config cfg = PerfectBungee.getConfig();
 		checkConsole();
-		Manager.checkPerm(cfg.getString("Spy.perm"), sender);
 
-		final ProxiedPlayer pl = getPlayer();
+		final Config cfg = PerfectBungee.getConfig();
+		final PlayerCache cache = PlayerCache.getCache(getPlayer());
 
-		if (spyers.contains(pl)) {
-			spyers.remove(pl);
+		Utils.checkPerm(cfg.getString("Spy.perm"), sender);
 
-			Common.tell(sender, cfg.getString("Spy.disabled"));
-		} else {
-			spyers.add(pl);
-
-			Common.tell(sender, cfg.getString("Spy.enabled"));
-		}
-
+		tell(cache.isSpyEnabled() ? cfg.getString("Spy.disabled") : cfg.getString("Spy.enabled"));
+		cache.setSpyEnabled(!cache.isSpyEnabled());
 	}
 }
