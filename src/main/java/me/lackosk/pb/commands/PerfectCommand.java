@@ -1,6 +1,7 @@
 package me.lackosk.pb.commands;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.PlayerUtil;
@@ -48,7 +49,7 @@ public class PerfectCommand extends SimpleCommand {
 
 		SimpleComponent online = SimpleComponent.of("");
 
-		online.append("&8>&a online &8-&f show all online players").onHover("Click to show online players").onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee online");
+		online.append("&8>&a online &8-&f show all online players").onHover("Click to show online players").onClick(ClickEvent.Action.RUN_COMMAND, "/perfectbungee online [server]");
 
 		//---------//
 
@@ -155,6 +156,13 @@ public class PerfectCommand extends SimpleCommand {
 
 				if (ProxyServer.getInstance().getPlayers().isEmpty())
 					returnTell(cfg.getString("Online.empty"));
+
+				if (args.length == 2) {
+					if (ProxyServer.getInstance().getServers().values().stream().map(ServerInfo::getName).noneMatch(s -> s.equalsIgnoreCase(args[1])))
+						returnTell("&cServer named '" + args[1] + "' not found.");
+
+					returnTell(cfg.getString("Online.format").replace("{players}", Utils.split(ProxyServer.getInstance().getPlayers().stream().filter(proxiedPlayer -> proxiedPlayer.getServer().getInfo().getName().equalsIgnoreCase(args[1])).map(CommandSender::getName).collect(Collectors.toList()), ", ")).replace("{bungee_online}", ProxyServer.getInstance().getOnlineCount() + ""));
+				}
 
 				tell(cfg.getString("Online.format").replace("{players}", Utils.split(ProxyServer.getInstance().getPlayers().stream().map(CommandSender::getName).collect(Collectors.toList()), ", ")).replace("{bungee_online}", ProxyServer.getInstance().getOnlineCount() + ""));
 
