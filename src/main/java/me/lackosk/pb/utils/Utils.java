@@ -24,13 +24,11 @@ public class Utils {
 	}
 
 	public static String split(Iterable<?> objects, String separators) {
-		return Joiner.on(separators)
-				.join(objects);
+		return Joiner.on(separators).join(objects);
 	}
 
 	public static void smoothLine(CommandSender sender) {
-		if (sender == ProxyServer.getInstance()
-				.getConsole())
+		if (sender == ProxyServer.getInstance().getConsole())
 			Common.tell(sender, Common.consoleLineSmooth());
 		else
 			Common.tell(sender, "&8" + Common.chatLineSmooth());

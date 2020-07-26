@@ -17,10 +17,7 @@ public class AntiSpamListener implements Listener {
 		final ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
 		final Config cfg = PerfectBungee.getConfig();
 
-		if (cfg.getBoolean("AntiSpam.allow-bypass") && sender.hasPermission(cfg.getString("AntiSpam.bypass-perm")))
-			return;
-
-		if (!event.isCommand())
+		if (event.isCommand() || cfg.getBoolean("AntiSpam.allow-bypass") && sender.hasPermission(cfg.getString("AntiSpam.bypass-perm")))
 			return;
 
 		final PlayerCache cache = PlayerCache.getCache(sender);

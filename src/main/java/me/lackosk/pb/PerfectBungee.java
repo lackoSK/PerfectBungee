@@ -1,7 +1,5 @@
 package me.lackosk.pb;
 
-import java.util.Arrays;
-
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.bungee.SimpleBungee;
 import org.mineacademy.bfo.plugin.SimplePlugin;
@@ -21,7 +19,6 @@ import me.lackosk.pb.events.AntiSpamListener;
 import me.lackosk.pb.events.ProtectionListener;
 import me.lackosk.pb.events.ServerPingListener;
 import me.lackosk.pb.utils.Updater;
-import me.lackosk.pb.utils.Utils;
 import net.md_5.bungee.api.ProxyServer;
 
 public class PerfectBungee extends SimplePlugin {
@@ -45,47 +42,42 @@ public class PerfectBungee extends SimplePlugin {
 
 	@Override
 	protected void onPluginStart() {
-		config = LightningBuilder.fromPath("config", getDataFolder().getAbsolutePath())
-				.addInputStream(getResourceAsStream("config.yml"))
-				.createConfig();
-		groups = LightningBuilder.fromPath("groups", getDataFolder().getAbsolutePath())
-				.addInputStream(getResourceAsStream("groups.yml"))
-				.createConfig();
+		config = LightningBuilder.fromPath("config", getDataFolder().getAbsolutePath()).addInputStream(getResourceAsStream("config.yml")).createConfig();
+		groups = LightningBuilder.fromPath("groups", getDataFolder().getAbsolutePath()).addInputStream(getResourceAsStream("groups.yml")).createConfig();
 
-		/*for (Map.Entry<String, Command> cmd : ProxyServer.getInstance().getPluginManager().getCommands()) {
-			System.out.println(cmd.getKey());
-		}*/
+		Common.log(getPluginLogo());
+		Common.log(Common.consoleLineSmooth());
+		Common.log(" ");
 
-		if (ProxyServer.getInstance()
-				.getPluginManager()
-				.getPlugin("PremiumVanish") != null) {
-			premiumVanishHooked = true;
-
-			Common.log("&aSuccessfully hooked with &f'PremiumVanish'");
-		}
-
+		Common.log("&7Registering commands...");
 		registerCommand(new AdminChatCommand());
 		registerCommand(new LobbyCommand());
 		registerCommand(new PerfectCommand(config.getString("PerfectBungee_Commands") + "|perfectbungee"));
-		Common.log("&a[+] &7Registered PerfectBungee command with: " + Arrays.asList(config.getString("PerfectBungee_Commands")
-				.split("\\|")) + "+ &aperfectbungee - the default one");
-
 		registerCommand(new PrivateMessageCommand());
 		registerCommand(new ReplyCommand());
 		registerCommand(new SpyCommand());
 		registerCommand(new StaffListCommand());
 
-		registerEvents(new AdminChatListener());
-		registerEvents(new ProtectionListener());
-		registerEvents(new ServerPingListener());
+		Common.log(" ");
 
+		Common.log("&7Registering listeners...");
+		registerEvents(new AdminChatListener());
+		registerEvents(new ServerPingListener());
+		registerEventsIf(new ProtectionListener(), config.getBoolean("AuthMe.protect"));
 		registerEventsIf(new AntiSpamListener(), config.getBoolean("AntiSpam.enabled"));
 
-		Common.log(getPluginLogo());
-		Common.log("&8" + Common.consoleLineSmooth(), "&7", "&aPlugin by &f" + Utils.removeBrackets(getDescription().getAuthor()) + "&a was enabled successfully!", "&aVersion: &f" + getDescription().getVersion(), "&7", "&8" + Common.consoleLineSmooth());
+		if (ProxyServer.getInstance().getPluginManager().getPlugin("PremiumVanish") != null) {
+			premiumVanishHooked = true;
+
+			Common.log(" ");
+			Common.log("&8[&a+&8] &fSuccessfully hooked with '&aPremiumVanish&f'");
+		}
+
+		Common.log(" ");
+		Common.log("&2PerfectBungee enabled successfully.");
+		Common.log(Common.consoleLineSmooth());
 
 		Updater.checkForUpdate();
-
 	}
 
 	@Override

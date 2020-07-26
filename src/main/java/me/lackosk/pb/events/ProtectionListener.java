@@ -21,15 +21,11 @@ public class ProtectionListener implements Listener {
 		final List<String> commands = config.getStringList("AuthMe.allowed-commands");
 
 		if (config.getBoolean("AuthMe.protect")) {
-			if (!config.getStringList("AuthMe.server-name")
-					.contains(sender.getServer()
-							.getInfo()
-							.getName()))
+			if (!config.getStringList("AuthMe.server-name").contains(sender.getServer().getInfo().getName()))
 				return;
 
 			String[] args = message.split("\\s");
-			boolean anyMatch = commands.stream()
-					.anyMatch(s -> s.equalsIgnoreCase(args[0]));
+			boolean anyMatch = commands.stream().anyMatch(s -> s.equalsIgnoreCase(args[0]));
 
 			if (!anyMatch) {
 				event.setCancelled(true);

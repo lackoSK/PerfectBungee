@@ -62,12 +62,7 @@ public class PrivateMessageCommand extends SimpleCommand implements TabExecutor 
 		ProxiedPlayer receiver;
 
 		if (args[0].equals("*")) {
-			ProxyServer.getInstance()
-					.getPlayers()
-					.stream()
-					.filter(player -> !player.getUniqueId()
-							.equals(getPlayer().getUniqueId()))
-					.forEach(player -> Common.tell(player, message));
+			ProxyServer.getInstance().getPlayers().stream().filter(player -> !player.getUniqueId().equals(getPlayer().getUniqueId())).forEach(player -> Common.tell(player, message));
 
 			return;
 		}

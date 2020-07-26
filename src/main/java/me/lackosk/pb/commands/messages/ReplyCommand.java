@@ -26,9 +26,7 @@ public class ReplyCommand extends SimpleCommand {
 		checkConsole();
 
 		final Config cfg = PerfectBungee.getConfig();
-		final String msg = Arrays.stream(args)
-				.map(arg -> arg + " ")
-				.collect(Collectors.joining());
+		final String msg = Arrays.stream(args).map(arg -> arg + " ").collect(Collectors.joining());
 		ProxiedPlayer receiver;
 
 		checkPerm(cfg.getString("PrivateMessage.perm"));

@@ -12,15 +12,13 @@ public class AdminChatListener implements Listener {
 	@EventHandler
 	public void onChat(ChatEvent event) {
 		final ProxiedPlayer player = (ProxiedPlayer) event.getSender();
-		final String msg = event.getMessage()
-				.toLowerCase();
+		final String msg = event.getMessage().toLowerCase();
 		final PlayerCache cache = PlayerCache.getCache(player);
 
 		if (cache.isAdminChatEnabled() && !msg.equalsIgnoreCase("/ac")) {
 			event.setCancelled(true);
 
-			Utils.sendAdminChat(player, event.getMessage()
-					.split("\\s"));
+			Utils.sendAdminChat(player, event.getMessage().split("\\s"));
 		}
 	}
 }

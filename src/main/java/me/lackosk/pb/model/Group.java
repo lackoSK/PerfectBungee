@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Represents a group in /staff
  *
  * @author Ladislav Proc
  */
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Data
 public class Group {
 
 	/**

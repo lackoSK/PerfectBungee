@@ -37,7 +37,6 @@ public class ServerPingListener implements Listener {
 		final BaseComponent component = new TextComponent(Common.colorize(motd.get(0) + "\n" + motd.get(1)));
 
 		ping.setDescriptionComponent(component);
-
 		event.setResponse(ping);
 	}
 }

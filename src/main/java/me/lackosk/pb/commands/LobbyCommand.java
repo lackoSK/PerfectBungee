@@ -34,10 +34,7 @@ public class LobbyCommand extends SimpleCommand {
 		Valid.checkNotNull(getEmptiestServer(), "We could not find any server correctly...");
 
 		for (String fromConfig : cfg.getStringList("Lobby.name"))
-			if (getPlayer().getServer()
-					.getInfo()
-					.getName()
-					.equalsIgnoreCase(fromConfig))
+			if (getPlayer().getServer().getInfo().getName().equalsIgnoreCase(fromConfig))
 				Common.tell(getPlayer(), "&cYou are already on lobby server.");
 
 		if (getEmptiestServer() != null) {

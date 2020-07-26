@@ -56,14 +56,14 @@ Jump:
 # Use placeholders {bungee_online} > Number of online players
 Online:
   perm: "pb.online"
-  format: "&aOnline &8(&a{bungee_online}&8)&a: &a"
+  format: "&aOnline &8(&f{bungee_online}&8)&a: &f{players}"
   empty: "&cEverybody is offline :("
 #
 # Plugins show all your proxy plugins in game!
 # Use placeholders {plugin} > plugin names
 Plugins:
   perm: "pb.plugins"
-  prefix: "&a&lPlugins: "
+  prefix: "&a&lPlugins: &f"
   spectator_format: "&a, "
   plugin_format: "&f{plugin}"
 #
@@ -71,6 +71,7 @@ Plugins:
 Reload:
   perm: "pb.reload"
   reloaded: "&a&l[!] &aPlugin was reloaded."
+
 #----------------------------------------------------------------------------------------------------------------------#
 #
 # Yes, yes AdminChat!
@@ -83,6 +84,7 @@ AdminChat:
   format: "&a&lAC &8&l| &8&o({server}) &a{sender}: &f{message}"
   removed: "&a&lAC &8&l| &fYou have been removed from ac mode"
   added: "&a&lAC &8&l| &fYou have been added to the ac mode"
+
 #----------------------------------------------------------------------------------------------------------------------#
 #
 # Make your server Motd look COOL!
@@ -96,11 +98,10 @@ Motd:
     max: 100
   justonemore: false
   motd1:
-    - "&f&lThis server is using &a&lPerfectBungee%center"
-    - "&d&lThis server is using &e&lPerfectBungee%center"
+    - "&f&lThis server is using &a&lPerfectBungee"
   motd2:
-    - "&fPerfectBungee is a plugin by lackoSK%center"
-    - "&bPerfectBungee is a plugin by lackoSK%center"
+    - "&bPerfectBungee is a plugin by lackoSK"
+
 #----------------------------------------------------------------------------------------------------------------------#
 #AuthMe protection
 #
@@ -126,6 +127,7 @@ AuthMe:
     - "/register"
     - "/l"
     - "/reg"
+    -
 #----------------------------------------------------------------------------------------------------------------------#
 #
 # AntiSpam! (powerful)
@@ -149,12 +151,6 @@ Spy:
   enabled: "&8[&cSPY&8] &aSpy has been enabled"
   disabled: "&8[&cSPY&8] &cSpy has been disabled"
   format: "&8[&cSPY&8] &a{sender} &f--> &c{receiver}&f: {message}"
-
-Gspy:
-  perm: "pb.gspy"
-  enabled: "&8[&cGSPY&8] &aGSpy has been enabled"
-  disabled: "&8[&cGSPY&8] &cGSpy has been disabled"
-  format: "&8[&cGSPY&8] &a{sender} &f: {message}"
 
 #----------------------------------------------------------------------------------------------------------------------#
 #

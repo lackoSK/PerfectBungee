@@ -1,6 +1,6 @@
 package me.lackosk.pb.commands;
 
-import java.util.Collections;
+import java.util.stream.Collectors;
 
 import org.mineacademy.bfo.Common;
 import org.mineacademy.bfo.PlayerUtil;
@@ -124,13 +124,9 @@ public class PerfectCommand extends SimpleCommand {
 
 				for (final ProxiedPlayer player : ProxyServer.getInstance()
 						.getPlayers()) {
-					final String message = new Utils().getArgumentsIndex(1, args);
+					final String message = Utils.getArgumentsIndex(1, args);
 
-					PlayerUtil.sendTitle(player, "" + cfg.getString("Alert.title")
-							.replace("{message}", message)
-							.replace("{sender}", sender.getName()), "" + cfg.getString("Alert.subtitle")
-							.replace("{message}", message)
-							.replace("{sender}", sender.getName()));
+					PlayerUtil.sendTitle(player, "" + cfg.getString("Alert.title").replace("{message}", message).replace("{sender}", sender.getName()), "" + cfg.getString("Alert.subtitle").replace("{message}", message).replace("{sender}", sender.getName()));
 				}
 
 				Common.tell(sender, cfg.getString("Alert.alerted").replace("{online}", "" + ProxyServer.getInstance().getOnlineCount()));
@@ -146,11 +142,9 @@ public class PerfectCommand extends SimpleCommand {
 
 				for (final ProxiedPlayer player : ProxyServer.getInstance()
 						.getPlayers()) {
-					String message = new Utils().getArgumentsIndex(1, args);
+					String message = Utils.getArgumentsIndex(1, args);
 
-					Common.tell(player, "" + cfg.getString("ChatAlert.format")
-							.replace("{message}", message)
-							.replace("{sender}", sender.getName()));
+					Common.tell(player, "" + cfg.getString("ChatAlert.format").replace("{message}", message).replace("{sender}", sender.getName()));
 				}
 
 				break;
@@ -159,24 +153,10 @@ public class PerfectCommand extends SimpleCommand {
 			case "online": {
 				Utils.checkPerm(cfg.getString("Online.perm"), sender);
 
-				if (ProxyServer.getInstance()
-						.getPlayers()
-						.isEmpty())
+				if (ProxyServer.getInstance().getPlayers().isEmpty())
 					returnTell(cfg.getString("Online.empty"));
 
-				for (ProxiedPlayer player : ProxyServer.getInstance()
-						.getPlayers()) {
-					SimpleComponent.of(cfg.getString("Online.format")
-							.replace("{players}", "")
-							.replace("{bungee_online}", "" + ProxyServer.getInstance()
-									.getOnlineCount()))
-							.append(Utils.split(Collections.singleton(player.getName()), " ,"))
-							.onHover(player.getServer()
-									.getInfo()
-									.getName())
-							.send(getSender());
-
-				}
+				tell(cfg.getString("Online.format").replace("{players}", Utils.split(ProxyServer.getInstance().getPlayers().stream().map(CommandSender::getName).collect(Collectors.toList()), ", ")).replace("{bungee_online}", ProxyServer.getInstance().getOnlineCount() + ""));
 
 				break;
 			}
@@ -193,9 +173,7 @@ public class PerfectCommand extends SimpleCommand {
 					if (i != 0)
 						builder.append(cfg.getString("Plugins.spectator_format"));
 
-					builder.append(cfg.getString("Plugins.plugin_format")
-							.replace("{plugin}", plugin.getFile()
-									.getName()));
+					builder.append(cfg.getString("Plugins.plugin_format").replace("{plugin}", plugin.getDescription().getName()));
 					i++;
 				}
 				Common.tell(sender, cfg.getString("Plugins.prefix") + builder.toString());
@@ -210,19 +188,11 @@ public class PerfectCommand extends SimpleCommand {
 				if (args.length <= 1)
 					returnTell("&cUsage: /{label} jump <player>");
 
-				final ProxiedPlayer target = ProxyServer.getInstance()
-						.getPlayer(args[1]);
-				checkNotNull(target, cfg.getString("Jump.offline")
-						.replace("{player}", args[1]));
+				final ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
+				checkNotNull(target, cfg.getString("Jump.offline").replace("{player}", args[1]));
 
-				final ServerInfo targetServer = ProxyServer.getInstance()
-						.getServerInfo(target.getServer()
-								.getInfo()
-								.getName());
-				final ServerInfo senderServer = ProxyServer.getInstance()
-						.getServerInfo(getPlayer().getServer()
-								.getInfo()
-								.getName());
+				final ServerInfo targetServer = ProxyServer.getInstance().getServerInfo(target.getServer().getInfo().getName());
+				final ServerInfo senderServer = ProxyServer.getInstance().getServerInfo(getPlayer().getServer().getInfo().getName());
 
 				checkNotNull(targetServer, "Error while performing this command ");
 				checkNotNull(senderServer, "Error while performing this command ");

@@ -43,16 +43,7 @@ public class AdminChatCommand extends SimpleCommand {
 			cache.setAdminChatEnabled(!cache.isAdminChatEnabled());
 
 		} else
-			ProxyServer.getInstance()
-					.getPlayers()
-					.stream()
-					.filter(players -> players.hasPermission(cfg.getString("AdminChat.perm")))
-					.forEach(players -> Common.tell(players, cfg.getString("AdminChat.format")
-							.replace("{sender}", getPlayer().getName())
-							.replace("{server}", getPlayer().getServer()
-									.getInfo()
-									.getName())
-							.replace("{message}", Utils.getArgumentsIndex(0, args))));
+			ProxyServer.getInstance().getPlayers().stream().filter(players -> players.hasPermission(cfg.getString("AdminChat.perm"))).forEach(players -> Common.tell(players, cfg.getString("AdminChat.format").replace("{sender}", getPlayer().getName()).replace("{server}", getPlayer().getServer().getInfo().getName()).replace("{message}", Utils.getArgumentsIndex(0, args))));
 
 	}
 }
