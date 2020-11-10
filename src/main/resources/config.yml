@@ -97,9 +97,8 @@ Motd:
     enabled: true
     max: 100
   justonemore: false
-  motd1:
+  motd:
     - "&f&lThis server is using &a&lPerfectBungee"
-  motd2:
     - "&bPerfectBungee is a plugin by lackoSK"
 
 #----------------------------------------------------------------------------------------------------------------------#
